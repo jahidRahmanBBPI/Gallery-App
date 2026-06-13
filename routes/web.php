@@ -31,10 +31,14 @@ Route::get('/create/album', [GalleryController::class, 'create_album'])->name('c
 Route::post('/store/album', [GalleryController::class, 'store_album'])->name('store.album');
 
 Route::get('/all/album', [GalleryController::class, 'all_album'])->name('all.album');
+// Delete Album
 Route::get('/delete/album/{id}', [GalleryController::class, 'delete_album'])->name('delete.album');
 Route::get('/edit/album/{id}', [GalleryController::class, 'edit_album'])->name('edit.album');
 
-Route::get('/view/album/{id}', [GalleryController::class, 'view_album'])->name('view.album');
+Route::get('/view/album/{id?}', [GalleryController::class, 'view_album'])->name('view.album');
 
-Route::get('/add/photo', [GalleryController::class, 'add_photo'])->name('add.photo');
+Route::get('/add/photo/{id}', [GalleryController::class, 'add_photo'])->name('add.photo');
 Route::post('/store/photo', [GalleryController::class, 'store_photo'])->name('store.photo');
+
+// Delete Photo
+Route::get('/delete/photo/{id}', [GalleryController::class, 'delete_photo'])->name('delete.photo');

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Album;
 use App\Models\Person;
 use App\Models\User;
+use Database\Seeders\album as SeedersAlbum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,27 +19,30 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        Person::factory()->count(5000)->create();
+        // Person::factory()->count(5000)->create();
+
+        Album::factory()->count(10)->create();
 
         // When you want to create a specific user with specific data, you can use the following code:
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
 
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Admin User',
+        //     'email' => 'test@example.com',
+        // ]);
 
-        User::factory()->create([
-            'name' => 'editor',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'editor',
+        //     'email' => 'test@example.com',
+        // ]);
 
         $this->call([
-            PersonSeeder::class,
+            // PersonSeeder::class,
+            SeedersAlbum::class,
         ]);
         // php artisan db:seed [This is the command to run the seeder in terminal]
         // php artisan migrate:refresh --seed [This is the command to refresh the database and run the seeder in terminal]

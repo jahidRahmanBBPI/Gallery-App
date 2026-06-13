@@ -36,22 +36,48 @@ class GalleryController extends Controller
     }
 
     function delete_album($id){
-        DB::table('album')->where('id', $id)->delete();
+
+        $photos = DB::table('album')->where('id', $id)->first();
+        $removedFile = unlink(public_path('album_cover/'.$photos->album_thumbnail));
+        if($removedFile){
+            $photos = DB::table('photo')->where('album_id', $id)->get();
+            foreach($photos as $photo){
+                unlink(public_path('album_photo/'.$photo->photo));
+                DB::table('photo')->where('album_id', $id)->delete();
+            }
+            DB::table('album')->where('id', $id)->delete();
+            
+        }
+
         return redirect()->route('all.album')->with('success', 'Album deleted successfully!');
     }
 
-    function view_album($id){
-        return view('gallery.view_album', compact('id'));
+    function view_album($id = null){
+        $albumA = DB::table('album')->where('id', $id)->first();
+        $photo = DB::table('album')
+                ->leftJoin('photo', 'album.id', '=', 'photo.album_id')
+                ->where('album.id', $id)
+                ->get();
+        return view('gallery.view_album', [
+            'album' => $albumA,
+            'photos' => $photo,
+        ]);
     }
 
-    function add_photo(){
-        return view('gallery.add_photo');
+    function add_photo($id){
+        // $album = DB::table('album')->where('id', $id)->first('id');
+        // dd($album);
+        return view('gallery.add_photo',[
+            'album_id' => $id,
+        ]);
     }
 
     function store_photo(Request $request){
+        // dd($request->all());
         $request->validate([
-            // 'album_id' => 'required',
-            'photo_title' => 'required',
+            'album_id' => 'required',
+            'photo_title' => 'required|string|max:30',
+            'photo_desc' => 'nullable|string|max:255',
             'photo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
@@ -63,9 +89,17 @@ class GalleryController extends Controller
         DB::table('photo')->insert([
             'album_id' => $request->album_id,
             'photo_name' => $request->photo_title,
+            'photo' => $photo_file_name,
             'photo_desc' => $request->photo_desc,
-            'photo_file' => $photo_file_name,
         ]);
         // return redirect()->route('view.album')->with('success', 'Photo added successfully!');
+        return redirect()->back()->with('success', 'success');
+    }
+
+    // Photo Delete.
+    function delete_photo($id){
+        DB::table('photo')->where('id', $id)->delete();
+        // return redirect()->route('')->with('delete', 'Photo Delete Successfully!');
+        return back();
     }
 }

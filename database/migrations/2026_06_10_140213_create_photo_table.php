@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('album_id');
             $table->string('photo_name');
+            $table->string('photo')->nullable();
             $table->string('photo_desc')->nullable();
             $table->timestamps();
         });

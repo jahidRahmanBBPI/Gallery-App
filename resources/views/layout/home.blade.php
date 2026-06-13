@@ -540,6 +540,8 @@
 	<!-- inject:js -->
 	<script src="{{ asset('frontend_asset') }}/vendors/feather-icons/feather.min.js"></script>
 	<script src="{{ asset('frontend_asset') }}/js/template.js"></script>
+	{{-- Bootstrap --}}
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- endinject -->
 	<!-- custom js for this page -->
   <!-- end custom js for this page -->
